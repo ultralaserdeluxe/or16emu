@@ -2,9 +2,7 @@
  * Created by kebabdjuret on 2014-10-07.
  */
 public class OR16 implements CPU {
-    // Memory
-    private final int MEMSIZE = 256;
-    public int[] memory;
+    Memory memory;
 
     // Registers
     private int pc = 0;
@@ -12,17 +10,20 @@ public class OR16 implements CPU {
     private int acc = 0;
     private int sp = 0;
     private int xr = 0;
+    private int sr = 0;
 
     // Emulation state
     private boolean executing = true;
 
-    public OR16() {
-        memory = new int[MEMSIZE];
-        memory[0] = 12; // LDA #16
-        memory[1] = 16;
-        memory[2] = 20; // STA #5
-        memory[3] = 5;
-        memory[4] = 248; // HALT
+    public OR16(Memory memory) {
+        this.memory = memory;
+        this.memory.write(0, 12); // LDA #16
+        this.memory.write(1, 16);
+        this.memory.write(2, 20); // STA #9
+        this.memory.write(3, 9);
+        this.memory.write(4, 20); // STA #15
+        this.memory.write(5, 15);
+        this.memory.write(6, 248); // HALT
     }
 
     @Override
@@ -30,47 +31,100 @@ public class OR16 implements CPU {
         if (!executing) return;
 
         // Fetch
-        ip = memory[pc++];
+        ip = memory.read(pc++);
 
         // Execute
         switch (ip >> 3) {
-            // NOP
             case 0:
                 nop();
                 break;
-            // LDA
             case 1:
                 lda();
                 break;
-            // STA
             case 2:
                 sta();
                 break;
-            // LDX
             case 3:
                 ldx();
                 break;
-            // STX
             case 4:
                 stx();
                 break;
-            // LDS
             case 5:
                 lds();
                 break;
-            // STS
             case 6:
                 sts();
                 break;
-            // PUSH
             case 7:
                 push();
                 break;
-            // PULL
             case 8:
                 pull();
                 break;
-            // HALT
+            case 9:
+                add();
+                break;
+            case 10:
+                sub();
+                break;
+            case 11:
+                inc();
+                break;
+            case 12:
+                dec();
+                break;
+            case 13:
+                inx();
+                break;
+            case 14:
+                dex();
+                break;
+            case 15:
+                ins();
+                break;
+            case 16:
+                des();
+                break;
+            case 17:
+                lsl();
+                break;
+            case 18:
+                lsr();
+                break;
+            case 19:
+                asr();
+                break;
+            case 20:
+                asl();
+                break;
+            case 21:
+                and();
+                break;
+            case 22:
+                or();
+                break;
+            case 23:
+                xor();
+                break;
+            case 24:
+                jmp();
+                break;
+            case 25:
+                jmpn();
+                break;
+            case 26:
+                jmpz();
+                break;
+            case 27:
+                jsr();
+                break;
+            case 28:
+                rts();
+                break;
+            case 29:
+                cmp();
+                break;
             case 31:
                 halt();
                 break;
@@ -83,8 +137,23 @@ public class OR16 implements CPU {
 
     @Override
     public void reset() {
-        pc = ip = acc = sp = xr = 0;
+        pc = ip = acc = sp = xr = sr = 0;
         executing = true;
+    }
+
+    private void update_sr() {
+        if (acc < 0) {
+            sr |= 1;
+        } else if (acc == 0) {
+            sr |= 2;
+        } else {
+            sr = 0;
+        }
+    }
+
+    public void print_registers() {
+        System.out.format("PC = %d IP = %d SP = %d XR = %d SR = %d A = %d\n", pc, ip, sp, xr, sr, acc);
+
     }
 
     private void nop() {
@@ -98,7 +167,7 @@ public class OR16 implements CPU {
 
     private void sta() {
         System.out.println("STA");
-        memory[fetch_operand(ip)] = acc;
+        memory.write(fetch_operand(ip), acc);
     }
 
     private void ldx() {
@@ -108,7 +177,7 @@ public class OR16 implements CPU {
 
     private void stx() {
         System.out.println("STX");
-        memory[fetch_operand(ip)] = xr;
+        memory.write(fetch_operand(ip), xr);
     }
 
     private void lds() {
@@ -118,15 +187,132 @@ public class OR16 implements CPU {
 
     private void sts() {
         System.out.println("STS");
-        memory[fetch_operand(ip)] = sp;
+        memory.write(fetch_operand(ip), sp);
     }
 
     private void push() {
-        System.out.println("PUSH (not implemented)");
+        System.out.println("PUSH");
+        memory.write(sp++, acc);
     }
 
     private void pull() {
-        System.out.println("PULL (not implemented)");
+        System.out.println("PULL");
+        acc = memory.read(--sp);
+    }
+
+    private void add() {
+        System.out.println("ADD");
+        acc += fetch_operand(ip);
+        update_sr();
+    }
+
+    private void sub() {
+        System.out.println("SUB");
+        acc -= fetch_operand(ip);
+        update_sr();
+    }
+
+    private void inc() {
+        System.out.println("INC");
+        acc++;
+        update_sr();
+    }
+
+    private void dec() {
+        System.out.println("DEC");
+        acc--;
+        update_sr();
+    }
+
+    private void inx() {
+        System.out.println("INX");
+        xr++;
+    }
+
+    private void dex() {
+        System.out.println("DEX");
+        xr--;
+    }
+
+    private void ins() {
+        System.out.println("INS");
+        sp++;
+    }
+
+    private void des() {
+        System.out.println("DES");
+        sp--;
+    }
+
+    private void lsl() {
+        System.out.println("LSL");
+        acc <<= fetch_operand(ip);
+    }
+
+    private void lsr() {
+        System.out.println("LSR");
+        acc >>>= fetch_operand(ip);
+    }
+
+    private void asr() {
+        System.out.println("ASR");
+        acc >>= fetch_operand(ip);
+    }
+
+    private void asl() {
+        System.out.println("ASL (not implemented)");
+        acc <<= fetch_operand(ip);
+    }
+
+    private void and() {
+        System.out.println("AND");
+        acc &= fetch_operand(ip);
+    }
+
+    private void or() {
+        System.out.println("OR");
+        acc |= fetch_operand(ip);
+    }
+
+    private void xor() {
+        System.out.println("XOR");
+        acc ^= fetch_operand(ip);
+    }
+
+    private void jmp() {
+        System.out.println("JMP");
+        pc = fetch_operand(ip);
+    }
+
+    private void jmpn() {
+        System.out.println("JMPN");
+        int address = fetch_operand(ip);
+        if (acc < 0) pc = address;
+    }
+
+    private void jmpz() {
+        System.out.println("JMPZ");
+        int address = fetch_operand(ip);
+        if (acc < 0) pc = address;
+    }
+
+    private void jsr() {
+        System.out.println("JSR");
+        memory.write(sp++, pc);
+        pc = fetch_operand(ip);
+    }
+
+    private void rts() {
+        System.out.println("RTS");
+        pc = memory.read(--sp);
+    }
+
+    private void cmp() {
+        System.out.println("CMP");
+        int old_acc = acc;
+        acc -= fetch_operand(ip);
+        update_sr();
+        acc = old_acc;
     }
 
     private void halt() {
@@ -141,27 +327,27 @@ public class OR16 implements CPU {
         switch (ip & 0x7) {
             // Absolute addressing
             case 0x0:
-                address = memory[pc++];
-                operand = memory[address];
+                address = memory.read(pc++);
+                operand = memory.read(address);
                 break;
             // Indirect addressing
             case 0x1:
-                address = memory[pc++];
-                operand = memory[memory[address]];
+                address = memory.read(pc++);
+                operand = memory.read(memory.read(address));
                 break;
             // Indexed addressing
             case 0x2:
-                address = memory[pc++] + xr;
-                operand = memory[address];
+                address = memory.read(pc++) + xr;
+                operand = memory.read(address);
                 break;
             // Relative addressing
             case 0x3:
-                address = pc + 2 + memory[pc++];
-                operand = memory[address];
+                address = pc + 2 + memory.read(pc++);
+                operand = memory.read(address);
                 break;
             // Immediate addressing
             case 0x4:
-                operand = memory[pc++];
+                operand = memory.read(pc++);
                 break;
             // No addressing
             case 0x5:
@@ -176,10 +362,22 @@ public class OR16 implements CPU {
     }
 
     public static void main(String[] args) {
-        OR16 cpu = new OR16();
+        // Create some components.
+        Memory mainMemory = new MainMemory(10);
+        Memory graphicsMemory = new MainMemory(10);
+
+        // Create a memory space and add components to it.
+        MemorySpace memorySpace = new MemorySpace();
+        memorySpace.addMemoryRegion(mainMemory);
+        memorySpace.addMemoryRegion(graphicsMemory);
+
+        // Create a CPU and give it a memory space to work on.
+        CPU cpu = new OR16(memorySpace);
 
         for (int n = 0; n < 10; n++) cpu.tick();
 
-        System.out.print(cpu.memory[5]);
+        ((OR16) cpu).print_registers();
+        System.out.println(memorySpace.read(9));
+        System.out.println(memorySpace.read(15));
     }
 }
