@@ -4,11 +4,13 @@ import java.util.List;
 /**
  * Created by Alexander on 2014-10-18.
  */
-public class MemorySpace implements Memory {
+public class MemorySpace implements Memory, ObserverInterface {
 
     private List<Memory> memoryRegions;
+    List<Object> observers;
 
     public MemorySpace() {
+        observers = new ArrayList<Object>();
         memoryRegions = new ArrayList<Memory>();
     }
 
@@ -63,6 +65,17 @@ public class MemorySpace implements Memory {
 
     @Override
     public void addObserver(Object o) {
+        observers.add(o);
+    }
 
+    private void notifyObservers() {
+        for (Object o : observers) {
+            ((ObserverInterface) o).hasChanged();
+        }
+    }
+
+    @Override
+    public void hasChanged() {
+        notifyObservers();
     }
 }
