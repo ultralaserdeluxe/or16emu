@@ -60,4 +60,9 @@ public class MemorySpace implements Memory {
 
         return size;
     }
+
+    @Override
+    public void addObserver(Object o) {
+
+    }
 }

@@ -1,11 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Alexander on 2014-11-13.
  */
 public class KeyboardPanel extends JPanel {
-    public KeyboardPanel() {
+    JButton keys[];
+    Memory memory;
+
+    public KeyboardPanel(final Memory memory) {
+        this.memory = memory;
+
         setBorder(BorderFactory.createTitledBorder("KeyboardPanel"));
 
         // Layout manager
@@ -17,7 +24,7 @@ public class KeyboardPanel extends JPanel {
                 "4", "5", "6", "B",
                 "1", "2", "3", "C",
                 "0", "D", "E", "F"};
-        JButton keys[] = new JButton[keyLabels.length];
+        keys = new JButton[keyLabels.length];
         for (int i = 0; i < keys.length; i++) {
             keys[i] = new JButton(keyLabels[i]);
         }
@@ -26,5 +33,16 @@ public class KeyboardPanel extends JPanel {
         for (JButton key : keys) {
             add(key);
         }
+
+        // Add actions to buttons
+        final ActionListener al = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                for (JButton key : keys) {
+                    if (e.getSource() == key) {
+                        memory.write(0, 555);
+                    }
+                }
+            }
+        };
     }
 }

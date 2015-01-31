@@ -1,7 +1,11 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kebabdjuret on 2014-10-07.
  */
 public class OR16 implements CPU {
+    List<Object> observers;
     Memory memory;
 
     // Registers
@@ -14,16 +18,12 @@ public class OR16 implements CPU {
 
     // Emulation state
     private boolean executing = true;
+    private int ticks = 0;
 
     public OR16(Memory memory) {
         this.memory = memory;
-        this.memory.write(0, 12); // LDA #16
-        this.memory.write(1, 16);
-        this.memory.write(2, 20); // STA #9
-        this.memory.write(3, 9);
-        this.memory.write(4, 20); // STA #15
-        this.memory.write(5, 15);
-        this.memory.write(6, 248); // HALT
+
+        observers = new ArrayList<Object>();
     }
 
     @Override
@@ -133,12 +133,15 @@ public class OR16 implements CPU {
                 executing = false;
                 break;
         }
+        ticks++;
+        notifyObservers();
     }
 
     @Override
     public void reset() {
-        pc = ip = acc = sp = xr = sr = 0;
+        pc = ip = acc = sp = xr = sr = ticks = 0;
         executing = true;
+        notifyObservers();
     }
 
     private void update_sr() {
@@ -156,6 +159,34 @@ public class OR16 implements CPU {
 
     }
 
+    public int getTicks() {
+        return ticks;
+    }
+
+    public int getPc() {
+        return pc;
+    }
+
+    public int getIp() {
+        return ip;
+    }
+
+    public int getAcc() {
+        return acc;
+    }
+
+    public int getSp() {
+        return sp;
+    }
+
+    public int getXr() {
+        return xr;
+    }
+
+    public int getSr() {
+        return sr;
+    }
+
     private void nop() {
         System.out.println("NOP");
     }
@@ -163,6 +194,7 @@ public class OR16 implements CPU {
     private void lda() {
         System.out.println("LDA");
         acc = fetch_operand(ip);
+        update_sr();
     }
 
     private void sta() {
@@ -198,6 +230,7 @@ public class OR16 implements CPU {
     private void pull() {
         System.out.println("PULL");
         acc = memory.read(--sp);
+        update_sr();
     }
 
     private void add() {
@@ -247,36 +280,43 @@ public class OR16 implements CPU {
     private void lsl() {
         System.out.println("LSL");
         acc <<= fetch_operand(ip);
+        update_sr();
     }
 
     private void lsr() {
         System.out.println("LSR");
         acc >>>= fetch_operand(ip);
+        update_sr();
     }
 
     private void asr() {
         System.out.println("ASR");
         acc >>= fetch_operand(ip);
+        update_sr();
     }
 
     private void asl() {
         System.out.println("ASL (not implemented)");
         acc <<= fetch_operand(ip);
+        update_sr();
     }
 
     private void and() {
         System.out.println("AND");
         acc &= fetch_operand(ip);
+        update_sr();
     }
 
     private void or() {
         System.out.println("OR");
         acc |= fetch_operand(ip);
+        update_sr();
     }
 
     private void xor() {
         System.out.println("XOR");
         acc ^= fetch_operand(ip);
+        update_sr();
     }
 
     private void jmp() {
@@ -379,5 +419,16 @@ public class OR16 implements CPU {
         ((OR16) cpu).print_registers();
         System.out.println(memorySpace.read(9));
         System.out.println(memorySpace.read(15));
+    }
+
+    @Override
+    public void addObserver(Object o) {
+        observers.add(o);
+    }
+
+    private void notifyObservers() {
+        for (Object o : observers) {
+            ((ObserverInterface) o).hasChanged();
+        }
     }
 }

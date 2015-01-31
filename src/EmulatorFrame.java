@@ -5,7 +5,7 @@ import java.awt.*;
  * Created by Alexander on 2014-11-13.
  */
 public class EmulatorFrame extends JFrame {
-    public EmulatorFrame(String title) {
+    public EmulatorFrame(String title, OR16 cpu, Memory mainMemory, Memory peripherals, Memory graphicsMemory, int columns, int rows) {
         super(title);
 
         Container c = getContentPane();
@@ -15,10 +15,13 @@ public class EmulatorFrame extends JFrame {
         GridBagConstraints gc = new GridBagConstraints();
 
         // Create components
-        JPanel memPanel = new MemoryPanel();
-        JPanel ctrlPanel = new ControlPanel();
-        JPanel keyPanel = new KeyboardPanel();
-        JPanel displayPanel = new DisplayPanel();
+        JPanel memPanel = new MemoryPanel(mainMemory);
+        mainMemory.addObserver(memPanel);
+        JPanel displayPanel = new DisplayPanel(graphicsMemory, columns, rows);
+        graphicsMemory.addObserver(displayPanel);
+        JPanel ctrlPanel = new ControlPanel(cpu);
+        cpu.addObserver(ctrlPanel);
+        JPanel keyPanel = new KeyboardPanel(peripherals);
 
         // Add components
         // First column

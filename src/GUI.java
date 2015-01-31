@@ -6,12 +6,41 @@ import javax.swing.*;
 public class GUI implements Runnable {
     @Override
     public void run() {
-        JFrame frame = new EmulatorFrame("or16emu");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Create some components.
+        Memory mainMemory = new MainMemory(1000);
+        // Test program
+        mainMemory.write(0, 12); // LDA #16
+        mainMemory.write(1, 16);
+        mainMemory.write(2, 20); // STA #9
+        mainMemory.write(3, 9);
+        mainMemory.write(4, 20); // STA #15
+        mainMemory.write(5, 15);
+        mainMemory.write(6, 248); // HALT
+
+        int columns = 80;
+        int rows = 40;
+        Memory graphicsMemory = new MainMemory(columns * rows);
+
+        Memory peripherals = new KeyboardMemory();
+
+        // Create a memory space and add components to it.
+        MemorySpace memorySpace = new MemorySpace();
+        memorySpace.addMemoryRegion(mainMemory);
+        memorySpace.addMemoryRegion(peripherals);
+        memorySpace.addMemoryRegion(graphicsMemory);
+
+        // Create a CPU and give it a memory space to work on.
+        OR16 cpu = new OR16(memorySpace);
+
+        JFrame frame = new EmulatorFrame("or16emu", cpu, mainMemory, peripherals, graphicsMemory, columns, rows);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
     public static void main(String args[]) {
+        // To avoid bug with Gridlayout and JPanels (in DisplayPanel.java)
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+
         GUI emuWindow = new GUI();
         SwingUtilities.invokeLater(emuWindow);
     }
