@@ -1,5 +1,6 @@
 package emulator;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ public class OR16 implements CPU {
     private int sr = 0;
 
     // Emulation state
-    private boolean executing = true;
+    private boolean halted = false;
     private int ticks = 0;
 
     public OR16(Memory memory) {
@@ -29,16 +30,9 @@ public class OR16 implements CPU {
         observers = new ArrayList<Object>();
     }
 
-    public void run() {
-        // TODO: Do this in a separate thread
-        while (executing) {
-            tick();
-        }
-    }
-
     @Override
     public void tick() {
-        if (!executing) return;
+        if (halted) return;
 
         // Fetch
         ip = memory.read(pc++);
@@ -140,7 +134,7 @@ public class OR16 implements CPU {
                 break;
             default:
                 System.out.println("INVALID");
-                executing = false;
+                halted = true;
                 break;
         }
         ticks++;
@@ -150,8 +144,13 @@ public class OR16 implements CPU {
     @Override
     public void reset() {
         pc = ip = acc = sp = xr = sr = ticks = 0;
-        executing = true;
+        halted = false;
         notifyObservers();
+    }
+
+    @Override
+    public boolean isHalted() {
+        return halted;
     }
 
     private void update_sr() {
@@ -165,7 +164,7 @@ public class OR16 implements CPU {
     }
 
     @Override
-    public HashMap<String, String> getState() {
+    public HashMap<String, String> getCPUState() {
         HashMap<String, String> state = new HashMap<String, String>();
 
         state.put("TICKS", Integer.toString(ticks));
@@ -349,7 +348,7 @@ public class OR16 implements CPU {
 
     private void halt() {
         System.out.println("HALT");
-        executing = false;
+        halted = true;
     }
 
     private int fetch_operand(int ip) {
@@ -386,7 +385,7 @@ public class OR16 implements CPU {
                 break;
             default:
                 System.out.println("Invalid addressing");
-                executing = false;
+                halted = true;
                 break;
         }
 

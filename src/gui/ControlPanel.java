@@ -1,7 +1,9 @@
 package gui;
 
 import emulator.CPU;
+import emulator.CPURunner;
 import emulator.IObserver;
+import emulator.OR16;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +17,8 @@ import java.util.Map;
  */
 public class ControlPanel extends JPanel implements IObserver {
     private final CPU cpu;
+    private CPURunner cpuRunner;
+    private boolean threadExecuting = false;
     private HashMap<String, String> state;
     private final HashMap<String, JLabel> values;
 
@@ -27,7 +31,7 @@ public class ControlPanel extends JPanel implements IObserver {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         // Get state information to display
-        state = cpu.getState();
+        state = cpu.getCPUState();
         int nFields = state.size();
 
         // Create components
@@ -51,6 +55,7 @@ public class ControlPanel extends JPanel implements IObserver {
         final JButton resetButton = new JButton("Reset");
         buttonPanel.add(tickButton);
         buttonPanel.add(runButton);
+        stopButton.setEnabled(false);
         buttonPanel.add(stopButton);
         buttonPanel.add(resetButton);
 
@@ -64,10 +69,24 @@ public class ControlPanel extends JPanel implements IObserver {
                 if (e.getSource() == tickButton) {
                     cpu.tick();
                 } else if (e.getSource() == runButton) {
-                    // TODO: Implement runButton
-                    //cpu.run();
+                    if (!threadExecuting) {
+                        cpuRunner = new CPURunner(cpu);
+                        cpuRunner.start();
+                        threadExecuting = true;
+                        runButton.setEnabled(false);
+                        stopButton.setEnabled(true);
+                        resetButton.setEnabled(false);
+                        tickButton.setEnabled(false);
+                    }
                 } else if (e.getSource() == stopButton) {
-                    // TODO: Implement stopButton
+                    if (threadExecuting) {
+                        cpuRunner.stopExecution();
+                        threadExecuting = false;
+                        runButton.setEnabled(true);
+                        stopButton.setEnabled(false);
+                        resetButton.setEnabled(true);
+                        tickButton.setEnabled(true);
+                    }
                 } else if (e.getSource() == resetButton) {
                     cpu.reset();
                 }
@@ -84,12 +103,16 @@ public class ControlPanel extends JPanel implements IObserver {
 
     @Override
     public void hasChanged() {
-        state = cpu.getState();
+        state = cpu.getCPUState();
 
-        for (String label : state.keySet()) {
-            JLabel valueLabel = values.get(label);
-            String value = state.get(label);
-            valueLabel.setText(value);
-        }
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                for (String label : state.keySet()) {
+                    JLabel valueLabel = values.get(label);
+                    String value = state.get(label);
+                    valueLabel.setText(value);
+                }
+            }
+        });
     }
 }

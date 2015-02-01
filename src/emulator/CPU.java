@@ -10,5 +10,7 @@ public interface CPU extends IObservable {
 
     public void reset();
 
-    public HashMap<String, String> getState();
+    public boolean isHalted();
+
+    public HashMap<String, String> getCPUState();
 }
