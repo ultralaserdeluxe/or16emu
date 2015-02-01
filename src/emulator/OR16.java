@@ -225,70 +225,72 @@ public class OR16 implements CPU {
 
     private void add() {
         System.out.println("ADD");
-        acc += fetch_operand(ip);
+        int value = (acc + fetch_operand(ip)) & 0xFFFF;
+        acc = value;
         update_sr();
     }
 
     private void sub() {
         System.out.println("SUB");
         acc -= fetch_operand(ip);
+        int value = (acc - fetch_operand(ip)) & 0xFFFF;
+        acc = value;
         update_sr();
     }
 
     private void inc() {
         System.out.println("INC");
-        acc++;
+        acc = (acc + 1) & 0xFFFF;
         update_sr();
     }
 
     private void dec() {
         System.out.println("DEC");
-        acc--;
+        acc = (acc - 1) & 0xFFFF;
         update_sr();
     }
 
     private void inx() {
         System.out.println("INX");
-        xr++;
+        xr = (xr + 1) & 0xFFFF;
     }
 
     private void dex() {
         System.out.println("DEX");
-        xr--;
+        xr = (xr - 1) & 0xFFFF;
     }
 
     private void ins() {
         System.out.println("INS");
-        sp++;
+        sp = (sp + 1) & 0xFFFF;
     }
 
     private void des() {
         System.out.println("DES");
-        sp--;
+        sp = (sp - 1) & 0xFFFF;
     }
 
     private void lsl() {
         System.out.println("LSL");
-        acc <<= fetch_operand(ip);
+        acc = (acc << fetch_operand(ip)) & 0xFFFF;
         update_sr();
     }
 
     private void lsr() {
         System.out.println("LSR");
-        acc >>>= fetch_operand(ip);
+        acc = (acc >>> fetch_operand(ip)) & 0xFFFF;
         update_sr();
     }
 
     private void asr() {
         System.out.println("ASR");
-        acc >>= fetch_operand(ip);
+        acc = (acc >> fetch_operand(ip)) & 0xFFFF;
         update_sr();
     }
 
     private void asl() {
         System.out.println("ASL (not implemented)");
-        acc <<= fetch_operand(ip);
-        update_sr();
+        lsl();
     }
 
     private void and() {
@@ -299,7 +301,7 @@ public class OR16 implements CPU {
 
     private void or() {
         System.out.println("OR");
-        acc |= fetch_operand(ip);
+        acc = (acc | fetch_operand(ip)) & 0xFFFF;
         update_sr();
     }
 
@@ -328,7 +330,8 @@ public class OR16 implements CPU {
 
     private void jsr() {
         System.out.println("JSR");
-        memory.write(sp++, pc);
+        memory.write(sp, pc);
+        sp = (sp + 1) & 0xFFFF;
         pc = fetch_operand(ip);
     }
 
@@ -340,7 +343,7 @@ public class OR16 implements CPU {
     private void cmp() {
         System.out.println("CMP");
         int old_acc = acc;
-        acc -= fetch_operand(ip);
+        acc = (acc - fetch_operand(ip)) & 0xFFFF;
         update_sr();
         acc = old_acc;
     }
