@@ -23,10 +23,10 @@ public class MemoryPanel extends JPanel implements ObserverInterface {
         // Create components
         listModel = new DefaultListModel();
         JList memContents = new JList(listModel);
-        JScrollPane scrollpane = new JScrollPane(memContents);
+        JScrollPane scrollPane = new JScrollPane(memContents);
 
         // Add components
-        add(scrollpane, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
 
         // Update components
         hasChanged();

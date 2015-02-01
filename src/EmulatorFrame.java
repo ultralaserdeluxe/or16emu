@@ -8,7 +8,7 @@ import java.io.File;
  * Created by Alexander on 2014-11-13.
  */
 public class EmulatorFrame extends JFrame {
-    public EmulatorFrame(String title, OR16 cpu, final Memory memorySpace, Memory peripherals, Memory graphicsMemory, int columns, int rows) {
+    public EmulatorFrame(String title, JPanel ctrlPanel, JPanel memPanel, JPanel keyPanel, JPanel displayPanel, final FileReader fileReader) {
         super(title);
 
         final Container c = getContentPane();
@@ -16,15 +16,6 @@ public class EmulatorFrame extends JFrame {
         // Layout manager
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
-
-        // Create components
-        JPanel memPanel = new MemoryPanel(memorySpace);
-        memorySpace.addObserver(memPanel);
-        JPanel displayPanel = new DisplayPanel(graphicsMemory, columns, rows);
-        graphicsMemory.addObserver(displayPanel);
-        JPanel ctrlPanel = new ControlPanel(cpu);
-        cpu.addObserver(ctrlPanel);
-        JPanel keyPanel = new KeyboardPanel(peripherals);
 
         // Add components
         // First column
@@ -69,18 +60,15 @@ public class EmulatorFrame extends JFrame {
 
         setJMenuBar(menuBar);
 
-        // Add menu actions
-        final JFileChooser fc = new JFileChooser();
-
         final ActionListener al = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == loadItem) {
-                    int returnVal = fc.showOpenDialog(c);
+                    int returnVal = fileReader.showOpenDialog(c);
 
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
-                        File file = fc.getSelectedFile();
+                        File file = fileReader.getSelectedFile();
                         System.out.println("Loading file:" + file.getAbsolutePath());
-                        FileReader.readFileToMemory(file, memorySpace);
+                        fileReader.readFileToMemory(file);
                     }
                 } else if (e.getSource() == exitItem) {
                     System.exit(0);

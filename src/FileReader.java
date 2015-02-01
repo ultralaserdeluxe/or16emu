@@ -1,10 +1,20 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 
 /**
  * Created by Alexander on 2015-02-01.
  */
 public class FileReader {
-    public static void readFileToMemory(File file, Memory memory) {
+    private Memory memory;
+    private JFileChooser fileChooser;
+
+    public FileReader(Memory memory) {
+        this.memory = memory;
+        this.fileChooser = new JFileChooser();
+    }
+
+    public void readFileToMemory(File file) {
         try {
             InputStream in = new FileInputStream(file);
             int i = 0;
@@ -24,5 +34,14 @@ public class FileReader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public int showOpenDialog(Container c) {
+        return fileChooser.showOpenDialog(c);
+    }
+
+    public File getSelectedFile() {
+        return fileChooser.getSelectedFile();
     }
 }
