@@ -7,8 +7,8 @@ import java.util.List;
  * Created by Alexander on 2014-10-17.
  */
 public class MainMemory implements Memory {
-    private int[] memory;
-    List<Object> observers;
+    private final int[] memory;
+    private final List<Object> observers;
 
     public MainMemory(int size) {
         memory = new int[size];

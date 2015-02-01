@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by kebabdjuret on 2014-10-07.
+ * Created by Alexander on 2014-10-07.
  */
 public class OR16 implements CPU {
-    private List<Object> observers;
-    private Memory memory;
+    private final List<Object> observers;
+    private final Memory memory;
 
     // Registers
     private int pc = 0;
@@ -164,11 +164,6 @@ public class OR16 implements CPU {
         }
     }
 
-    public void print_registers() {
-        System.out.format("PC = %d IP = %d SP = %d XR = %d SR = %d A = %d\n", pc, ip, sp, xr, sr, acc);
-
-    }
-
     @Override
     public HashMap<String, String> getState() {
         HashMap<String, String> state = new HashMap<String, String>();
@@ -179,6 +174,7 @@ public class OR16 implements CPU {
         state.put("SP", Integer.toString(sp));
         state.put("XR", Integer.toString(xr));
         state.put("A", Integer.toString(acc));
+        state.put("SR", Integer.toString(sr));
 
         return state;
     }
@@ -395,26 +391,6 @@ public class OR16 implements CPU {
         }
 
         return operand;
-    }
-
-    public static void main(String[] args) {
-        // Create some components.
-        Memory mainMemory = new MainMemory(10);
-        Memory graphicsMemory = new MainMemory(10);
-
-        // Create a memory space and add components to it.
-        MemorySpace memorySpace = new MemorySpace();
-        memorySpace.addMemoryRegion(mainMemory);
-        memorySpace.addMemoryRegion(graphicsMemory);
-
-        // Create a emulator.CPU and give it a memory space to work on.
-        CPU cpu = new OR16(memorySpace);
-
-        for (int n = 0; n < 10; n++) cpu.tick();
-
-        ((OR16) cpu).print_registers();
-        System.out.println(memorySpace.read(9));
-        System.out.println(memorySpace.read(15));
     }
 
     @Override

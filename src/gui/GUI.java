@@ -8,7 +8,8 @@ import javax.swing.*;
 /**
  * Created by Alexander on 2014-10-24.
  */
-public class GUI implements Runnable {
+class GUI implements Runnable {
+
     @Override
     public void run() {
         // Create main memory
@@ -50,7 +51,8 @@ public class GUI implements Runnable {
         FileReader fileReader = new FileReader(memorySpace);
 
         // Create the main window
-        JFrame frame = new EmulatorFrame("or16emu", ctrlPanel, memPanel, keyPanel, displayPanel, fileReader);
+        String title = "or16emu";
+        JFrame frame = new EmulatorFrame(title, ctrlPanel, memPanel, keyPanel, displayPanel, fileReader);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }

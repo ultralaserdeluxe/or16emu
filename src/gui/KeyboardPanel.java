@@ -10,12 +10,10 @@ import java.awt.event.ActionListener;
 /**
  * Created by Alexander on 2014-11-13.
  */
-public class KeyboardPanel extends JPanel {
-    JButton keys[];
-    Memory memory;
+class KeyboardPanel extends JPanel {
+    private final JButton[] keys;
 
     public KeyboardPanel(final Memory memory) {
-        this.memory = memory;
 
         setBorder(BorderFactory.createTitledBorder("gui.KeyboardPanel"));
 

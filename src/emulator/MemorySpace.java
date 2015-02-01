@@ -7,9 +7,8 @@ import java.util.List;
  * Created by Alexander on 2014-10-18.
  */
 public class MemorySpace implements Memory, IObserver {
-
-    private List<Memory> memoryRegions;
-    List<Object> observers;
+    private final List<Memory> memoryRegions;
+    private final List<Object> observers;
 
     public MemorySpace() {
         observers = new ArrayList<Object>();

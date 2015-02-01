@@ -11,10 +11,10 @@ import java.util.ArrayList;
  * Created by Alexander on 2014-11-13.
  */
 public class DisplayPanel extends JPanel implements IObserver {
-    private ArrayList<JPanel> pixels;
-    private int columns;
-    private int rows;
-    private Memory memory;
+    private final ArrayList<JPanel> pixels;
+    private final int columns;
+    private final int rows;
+    private final Memory memory;
 
     public DisplayPanel(Memory memory, int columns, int rows) {
         this.memory = memory;

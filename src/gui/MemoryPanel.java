@@ -10,8 +10,8 @@ import java.awt.*;
  * Created by Alexander on 2014-11-13.
  */
 public class MemoryPanel extends JPanel implements IObserver {
-    private final DefaultListModel listModel;
-    private Memory memory;
+    private final DefaultListModel<String> listModel;
+    private final Memory memory;
 
     public MemoryPanel(Memory memory) {
         this.memory = memory;
@@ -26,8 +26,8 @@ public class MemoryPanel extends JPanel implements IObserver {
         setLayout(new BorderLayout());
 
         // Create components
-        listModel = new DefaultListModel();
-        JList memContents = new JList(listModel);
+        listModel = new DefaultListModel<String>();
+        JList<String> memContents = new JList<String>(listModel);
         JScrollPane scrollPane = new JScrollPane(memContents);
 
         // Add components

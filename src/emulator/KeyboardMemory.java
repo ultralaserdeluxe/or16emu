@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class KeyboardMemory implements Memory {
     private int character;
-    List<Object> observers;
+    private final List<Object> observers;
 
     public KeyboardMemory() {
         observers = new ArrayList<Object>();

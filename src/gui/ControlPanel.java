@@ -1,27 +1,24 @@
 package gui;
 
+import emulator.CPU;
 import emulator.IObserver;
-import emulator.OR16;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
 
 /**
  * Created by Alexander on 2014-11-13.
  */
 public class ControlPanel extends JPanel implements IObserver {
-    private final OR16 cpu;
+    private final CPU cpu;
     private HashMap<String, String> state;
-    private HashMap<String, JLabel> values;
-    private List<JLabel> labels;
+    private final HashMap<String, JLabel> values;
 
-    public ControlPanel(final OR16 cpu) {
+    public ControlPanel(final CPU cpu) {
         this.cpu = cpu;
 
         setBorder(BorderFactory.createTitledBorder("gui.ControlPanel"));
@@ -31,18 +28,16 @@ public class ControlPanel extends JPanel implements IObserver {
 
         // Get state information to display
         state = cpu.getState();
-        int nfields = state.size();
+        int nFields = state.size();
 
         // Create components
         JPanel statusPanel = new JPanel();
-        statusPanel.setLayout(new GridLayout(nfields, 2, 2, 0));
+        statusPanel.setLayout(new GridLayout(nFields, 2, 2, 0));
 
         values = new HashMap<String, JLabel>();
-        labels = new ArrayList<JLabel>();
         for (Map.Entry<String, String> entry : state.entrySet()) {
             JLabel label = new JLabel(entry.getKey() + ":", JLabel.RIGHT);
             JLabel value = new JLabel(entry.getValue(), JLabel.LEFT);
-            labels.add(label);
             values.put(entry.getKey(), value);
             statusPanel.add(label);
             statusPanel.add(value);
@@ -69,9 +64,10 @@ public class ControlPanel extends JPanel implements IObserver {
                 if (e.getSource() == tickButton) {
                     cpu.tick();
                 } else if (e.getSource() == runButton) {
-                    cpu.run();
+                    // TODO: Implement runButton
+                    //cpu.run();
                 } else if (e.getSource() == stopButton) {
-                    // TODO: Implement stopbutton
+                    // TODO: Implement stopButton
                 } else if (e.getSource() == resetButton) {
                     cpu.reset();
                 }

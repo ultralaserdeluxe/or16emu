@@ -10,8 +10,8 @@ import java.io.*;
  * Created by Alexander on 2015-02-01.
  */
 public class FileReader {
-    private Memory memory;
-    private JFileChooser fileChooser;
+    private final Memory memory;
+    private final JFileChooser fileChooser;
 
     public FileReader(Memory memory) {
         this.memory = memory;

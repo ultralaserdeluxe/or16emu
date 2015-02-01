@@ -11,7 +11,7 @@ import java.io.File;
 /**
  * Created by Alexander on 2014-11-13.
  */
-public class EmulatorFrame extends JFrame {
+class EmulatorFrame extends JFrame {
     public EmulatorFrame(String title, JPanel ctrlPanel, JPanel memPanel, JPanel keyPanel, JPanel displayPanel, final FileReader fileReader) {
         super(title);
 
@@ -52,7 +52,7 @@ public class EmulatorFrame extends JFrame {
         gc.gridheight = 1;
         c.add(keyPanel, gc);
 
-        // Add menubar
+        // Add menu bar
         JMenuBar menuBar = new JMenuBar();
 
         JMenu fileMenu = new JMenu("File");
