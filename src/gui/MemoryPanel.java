@@ -49,6 +49,7 @@ public class MemoryPanel extends JPanel implements IObserver {
                         listModel.removeElementAt(index);
                         listModel.insertElementAt(index + ": " + newValue, index);
                     } catch (NumberFormatException nfe) {
+                        nfe.printStackTrace();
                     }
                 }
             }

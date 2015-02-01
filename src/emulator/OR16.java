@@ -225,16 +225,14 @@ public class OR16 implements CPU {
 
     private void add() {
         System.out.println("ADD");
-        int value = (acc + fetch_operand(ip)) & 0xFFFF;
-        acc = value;
+        acc = (acc + fetch_operand(ip)) & 0xFFFF;
         update_sr();
     }
 
     private void sub() {
         System.out.println("SUB");
         acc -= fetch_operand(ip);
-        int value = (acc - fetch_operand(ip)) & 0xFFFF;
-        acc = value;
+        acc = (acc - fetch_operand(ip)) & 0xFFFF;
         update_sr();
     }
 
