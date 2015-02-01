@@ -1,32 +1,35 @@
+package emulator;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Alexander on 2014-10-17.
+ * Created by Alexander on 2015-01-31.
  */
-public class MainMemory implements Memory {
-    private int[] memory;
+public class KeyboardMemory implements Memory {
+    private int character;
     List<Object> observers;
 
-    public MainMemory(int size) {
-        memory = new int[size];
+    public KeyboardMemory() {
         observers = new ArrayList<Object>();
     }
 
     @Override
     public int read(int address) {
-        return memory[address];
+        return character;
     }
 
     @Override
     public void write(int address, int value) {
-        memory[address] = value;
-        notifyObservers();
+        if (address == 0) {
+            character = value;
+            notifyObservers();
+        }
     }
 
     @Override
     public int size() {
-        return memory.length;
+        return 1;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class MainMemory implements Memory {
 
     private void notifyObservers() {
         for (Object o : observers) {
-            ((ObserverInterface) o).hasChanged();
+            ((IObserver) o).hasChanged();
         }
     }
 }

@@ -1,10 +1,15 @@
+package gui;
+
+import emulator.IObserver;
+import emulator.Memory;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by Alexander on 2014-11-13.
  */
-public class MemoryPanel extends JPanel implements ObserverInterface {
+public class MemoryPanel extends JPanel implements IObserver {
     private final DefaultListModel listModel;
     private Memory memory;
 
@@ -16,7 +21,7 @@ public class MemoryPanel extends JPanel implements ObserverInterface {
         size.height = 400;
         setPreferredSize(size);
 
-        setBorder(BorderFactory.createTitledBorder("MemoryPanel"));
+        setBorder(BorderFactory.createTitledBorder("gui.MemoryPanel"));
 
         setLayout(new BorderLayout());
 

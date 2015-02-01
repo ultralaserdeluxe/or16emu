@@ -1,10 +1,12 @@
+package emulator;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Alexander on 2014-10-18.
  */
-public class MemorySpace implements Memory, ObserverInterface {
+public class MemorySpace implements Memory, IObserver {
 
     private List<Memory> memoryRegions;
     List<Object> observers;
@@ -70,7 +72,7 @@ public class MemorySpace implements Memory, ObserverInterface {
 
     private void notifyObservers() {
         for (Object o : observers) {
-            ((ObserverInterface) o).hasChanged();
+            ((IObserver) o).hasChanged();
         }
     }
 

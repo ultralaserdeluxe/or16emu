@@ -1,3 +1,7 @@
+package gui;
+
+import io.FileReader;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

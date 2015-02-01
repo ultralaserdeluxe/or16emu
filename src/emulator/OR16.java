@@ -1,3 +1,5 @@
+package emulator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -405,7 +407,7 @@ public class OR16 implements CPU {
         memorySpace.addMemoryRegion(mainMemory);
         memorySpace.addMemoryRegion(graphicsMemory);
 
-        // Create a CPU and give it a memory space to work on.
+        // Create a emulator.CPU and give it a memory space to work on.
         CPU cpu = new OR16(memorySpace);
 
         for (int n = 0; n < 10; n++) cpu.tick();
@@ -422,7 +424,7 @@ public class OR16 implements CPU {
 
     private void notifyObservers() {
         for (Object o : observers) {
-            ((ObserverInterface) o).hasChanged();
+            ((IObserver) o).hasChanged();
         }
     }
 }

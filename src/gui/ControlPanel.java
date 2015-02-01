@@ -1,3 +1,8 @@
+package gui;
+
+import emulator.IObserver;
+import emulator.OR16;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,7 +15,7 @@ import java.util.List;
 /**
  * Created by Alexander on 2014-11-13.
  */
-public class ControlPanel extends JPanel implements ObserverInterface {
+public class ControlPanel extends JPanel implements IObserver {
     private final OR16 cpu;
     private HashMap<String, String> state;
     private HashMap<String, JLabel> values;
@@ -19,7 +24,7 @@ public class ControlPanel extends JPanel implements ObserverInterface {
     public ControlPanel(final OR16 cpu) {
         this.cpu = cpu;
 
-        setBorder(BorderFactory.createTitledBorder("ControlPanel"));
+        setBorder(BorderFactory.createTitledBorder("gui.ControlPanel"));
 
         // Layout manager
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));

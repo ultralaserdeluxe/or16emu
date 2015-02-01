@@ -1,3 +1,7 @@
+package io;
+
+import emulator.Memory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;

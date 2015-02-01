@@ -1,3 +1,7 @@
+package gui;
+
+import emulator.Memory;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +17,7 @@ public class KeyboardPanel extends JPanel {
     public KeyboardPanel(final Memory memory) {
         this.memory = memory;
 
-        setBorder(BorderFactory.createTitledBorder("KeyboardPanel"));
+        setBorder(BorderFactory.createTitledBorder("gui.KeyboardPanel"));
 
         // Layout manager
         setLayout(new GridLayout(4, 4, 2, 2));

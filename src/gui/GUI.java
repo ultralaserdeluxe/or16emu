@@ -1,3 +1,8 @@
+package gui;
+
+import emulator.*;
+import io.FileReader;
+
 import javax.swing.*;
 
 /**
@@ -26,7 +31,7 @@ public class GUI implements Runnable {
         memorySpace.addMemoryRegion(graphicsMemory);
         graphicsMemory.addObserver(memorySpace);
 
-        // Create a CPU and give it a memory space to work on
+        // Create a emulator.CPU and give it a memory space to work on
         OR16 cpu = new OR16(memorySpace);
 
         // Create all panels
@@ -51,7 +56,7 @@ public class GUI implements Runnable {
     }
 
     public static void main(String args[]) {
-        // To avoid bug with Gridlayout and JPanels (in DisplayPanel.java)
+        // To avoid bug with Gridlayout and JPanels (in gui.DisplayPanel.java)
         System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 
         GUI emuWindow = new GUI();

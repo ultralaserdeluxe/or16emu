@@ -1,12 +1,16 @@
+package gui;
+
+import emulator.IObserver;
+import emulator.Memory;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 /**
  * Created by Alexander on 2014-11-13.
  */
-public class DisplayPanel extends JPanel implements ObserverInterface {
+public class DisplayPanel extends JPanel implements IObserver {
     private ArrayList<JPanel> pixels;
     private int columns;
     private int rows;
@@ -22,7 +26,7 @@ public class DisplayPanel extends JPanel implements ObserverInterface {
         size.height = 200;
         setPreferredSize(size);
 
-        setBorder(BorderFactory.createTitledBorder("DisplayPanel"));
+        setBorder(BorderFactory.createTitledBorder("gui.DisplayPanel"));
 
         // Set layout
         GridLayout layout = new GridLayout(rows, columns);
