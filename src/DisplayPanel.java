@@ -47,7 +47,7 @@ public class DisplayPanel extends JPanel implements ObserverInterface {
             int red = (memory.read(i) & 0xE0);
             int green = (memory.read(i) & 0x1C) << 3;
             int blue = (memory.read(i) & 0x03) << 6;
-            pixels.get(i).setBackground(new Color(red + i % 255, green, blue));
+            pixels.get(i).setBackground(new Color(red, green, blue));
         }
     }
 }

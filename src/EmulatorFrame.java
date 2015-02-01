@@ -1,14 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 /**
  * Created by Alexander on 2014-11-13.
  */
 public class EmulatorFrame extends JFrame {
-    public EmulatorFrame(String title, OR16 cpu, Memory memorySpace, Memory peripherals, Memory graphicsMemory, int columns, int rows) {
+    public EmulatorFrame(String title, OR16 cpu, final Memory memorySpace, Memory peripherals, Memory graphicsMemory, int columns, int rows) {
         super(title);
 
-        Container c = getContentPane();
+        final Container c = getContentPane();
 
         // Layout manager
         setLayout(new GridBagLayout());
@@ -53,6 +56,40 @@ public class EmulatorFrame extends JFrame {
         gc.gridwidth = 1;
         gc.gridheight = 1;
         c.add(keyPanel, gc);
+
+        // Add menubar
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+        final JMenuItem loadItem = new JMenuItem("Load");
+        fileMenu.add(loadItem);
+        final JMenuItem exitItem = new JMenuItem("Exit");
+        fileMenu.add(exitItem);
+
+        setJMenuBar(menuBar);
+
+        // Add menu actions
+        final JFileChooser fc = new JFileChooser();
+
+        final ActionListener al = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == loadItem) {
+                    int returnVal = fc.showOpenDialog(c);
+
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        File file = fc.getSelectedFile();
+                        System.out.println("Loading file:" + file.getAbsolutePath());
+                        FileReader.readFileToMemory(file, memorySpace);
+                    }
+                } else if (e.getSource() == exitItem) {
+                    System.exit(0);
+                }
+            }
+        };
+
+        loadItem.addActionListener(al);
+        exitItem.addActionListener(al);
 
         pack();
     }

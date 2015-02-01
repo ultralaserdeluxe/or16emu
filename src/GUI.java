@@ -8,14 +8,6 @@ public class GUI implements Runnable {
     public void run() {
         // Create some components.
         Memory mainMemory = new MainMemory(1000);
-        // Test program
-        mainMemory.write(0, 12); // LDA #16
-        mainMemory.write(1, 16);
-        mainMemory.write(2, 20); // STA #9
-        mainMemory.write(3, 9);
-        mainMemory.write(4, 20); // STA #15
-        mainMemory.write(5, 15);
-        mainMemory.write(6, 248); // HALT
 
         int columns = 80;
         int rows = 40;

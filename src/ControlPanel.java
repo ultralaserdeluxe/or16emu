@@ -61,9 +61,11 @@ public class ControlPanel extends JPanel implements ObserverInterface {
         final JButton tickButton = new JButton("Tick");
         final JButton runButton = new JButton("Run");
         final JButton stopButton = new JButton("Stop");
+        final JButton resetButton = new JButton("Reset");
         buttonPanel.add(tickButton);
         buttonPanel.add(runButton);
         buttonPanel.add(stopButton);
+        buttonPanel.add(resetButton);
 
         // Add components
         add(statusPanel);
@@ -75,9 +77,11 @@ public class ControlPanel extends JPanel implements ObserverInterface {
                 if (e.getSource() == tickButton) {
                     cpu.tick();
                 } else if (e.getSource() == runButton) {
-
+                    cpu.run();
                 } else if (e.getSource() == stopButton) {
-
+                    // TODO: Implement stopbutton
+                } else if (e.getSource() == resetButton) {
+                    cpu.reset();
                 }
             }
         };
@@ -85,6 +89,7 @@ public class ControlPanel extends JPanel implements ObserverInterface {
         tickButton.addActionListener(al);
         runButton.addActionListener(al);
         stopButton.addActionListener(al);
+        resetButton.addActionListener(al);
 
         hasChanged();
     }

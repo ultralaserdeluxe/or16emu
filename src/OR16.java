@@ -26,6 +26,13 @@ public class OR16 implements CPU {
         observers = new ArrayList<Object>();
     }
 
+    public void run() {
+        // TODO: Do this in a separate thread
+        while (executing) {
+            tick();
+        }
+    }
+
     @Override
     public void tick() {
         if (!executing) return;
