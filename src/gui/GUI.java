@@ -2,6 +2,7 @@ package gui;
 
 import emulator.*;
 import io.FileReader;
+import io.FileWriter;
 
 import javax.swing.*;
 
@@ -9,11 +10,11 @@ import javax.swing.*;
  * Created by Alexander on 2014-10-24.
  */
 class GUI implements Runnable {
-
     @Override
     public void run() {
         // Create main memory
-        Memory mainMemory = new MainMemory(1000);
+        final int mainMemorySize = 1000;
+        Memory mainMemory = new MainMemory(mainMemorySize);
 
         // Create graphics memory
         int columns = 80;
@@ -47,12 +48,13 @@ class GUI implements Runnable {
 
         JPanel keyPanel = new KeyboardPanel(keyboardMemory);
 
-        // Create file reader
+        // Create file reader and writer
         FileReader fileReader = new FileReader(memorySpace);
+        FileWriter fileWriter = new FileWriter(memorySpace, mainMemorySize);
 
         // Create the main window
         String title = "or16emu";
-        JFrame frame = new EmulatorFrame(title, ctrlPanel, memPanel, keyPanel, displayPanel, fileReader);
+        JFrame frame = new EmulatorFrame(title, ctrlPanel, memPanel, keyPanel, displayPanel, fileReader, fileWriter);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }

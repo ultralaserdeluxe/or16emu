@@ -1,6 +1,7 @@
 package gui;
 
 import io.FileReader;
+import io.FileWriter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.io.File;
  * Created by Alexander on 2014-11-13.
  */
 class EmulatorFrame extends JFrame {
-    public EmulatorFrame(String title, JPanel ctrlPanel, JPanel memPanel, JPanel keyPanel, JPanel displayPanel, final FileReader fileReader) {
+    public EmulatorFrame(String title, JPanel ctrlPanel, JPanel memPanel, JPanel keyPanel, JPanel displayPanel, final FileReader fileReader, final FileWriter fileWriter) {
         super(title);
 
         final Container c = getContentPane();
@@ -59,6 +60,8 @@ class EmulatorFrame extends JFrame {
         menuBar.add(fileMenu);
         final JMenuItem loadItem = new JMenuItem("Load");
         fileMenu.add(loadItem);
+        final JMenuItem saveItem = new JMenuItem("Save");
+        fileMenu.add(saveItem);
         final JMenuItem exitItem = new JMenuItem("Exit");
         fileMenu.add(exitItem);
 
@@ -74,6 +77,14 @@ class EmulatorFrame extends JFrame {
                         System.out.println("Loading file:" + file.getAbsolutePath());
                         fileReader.readFileToMemory(file);
                     }
+                } else if (e.getSource() == saveItem) {
+                    int returnVal = fileWriter.showSaveDialog(c);
+
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        File file = fileWriter.getSelectedFile();
+                        System.out.println("Saving to file:" + file.getAbsolutePath());
+                        fileWriter.writeMemoryToFile(file);
+                    }
                 } else if (e.getSource() == exitItem) {
                     System.exit(0);
                 }
@@ -81,6 +92,7 @@ class EmulatorFrame extends JFrame {
         };
 
         loadItem.addActionListener(al);
+        saveItem.addActionListener(al);
         exitItem.addActionListener(al);
 
         pack();
