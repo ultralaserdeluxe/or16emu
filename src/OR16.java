@@ -1,12 +1,13 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by kebabdjuret on 2014-10-07.
  */
 public class OR16 implements CPU {
-    List<Object> observers;
-    Memory memory;
+    private List<Object> observers;
+    private Memory memory;
 
     // Registers
     private int pc = 0;
@@ -166,32 +167,18 @@ public class OR16 implements CPU {
 
     }
 
-    public int getTicks() {
-        return ticks;
-    }
+    @Override
+    public HashMap<String, String> getState() {
+        HashMap<String, String> state = new HashMap<String, String>();
 
-    public int getPc() {
-        return pc;
-    }
+        state.put("TICKS", Integer.toString(ticks));
+        state.put("PC", Integer.toString(pc));
+        state.put("IP", Integer.toString(ip));
+        state.put("SP", Integer.toString(sp));
+        state.put("XR", Integer.toString(xr));
+        state.put("A", Integer.toString(acc));
 
-    public int getIp() {
-        return ip;
-    }
-
-    public int getAcc() {
-        return acc;
-    }
-
-    public int getSp() {
-        return sp;
-    }
-
-    public int getXr() {
-        return xr;
-    }
-
-    public int getSr() {
-        return sr;
+        return state;
     }
 
     private void nop() {

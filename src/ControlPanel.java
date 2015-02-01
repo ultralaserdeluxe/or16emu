@@ -2,19 +2,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 
 /**
  * Created by Alexander on 2014-11-13.
  */
 public class ControlPanel extends JPanel implements ObserverInterface {
-    private JLabel tickValue;
-    private JLabel ipVal;
-    private JLabel pcVal;
-    private JLabel xrVal;
-    private JLabel spVal;
-    private JLabel aVal;
-    private JLabel srVal;
     private final OR16 cpu;
+    private HashMap<String, String> state;
+    private HashMap<String, JLabel> values;
+    private List<JLabel> labels;
 
     public ControlPanel(final OR16 cpu) {
         this.cpu = cpu;
@@ -24,37 +24,24 @@ public class ControlPanel extends JPanel implements ObserverInterface {
         // Layout manager
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
+        // Get state information to display
+        state = cpu.getState();
+        int nfields = state.size();
+
         // Create components
         JPanel statusPanel = new JPanel();
-        statusPanel.setLayout(new GridLayout(7, 2, 2, 0));
-        JLabel tickLabel = new JLabel("Ticks:", JLabel.RIGHT);
-        JLabel ipReg = new JLabel("IP:", JLabel.RIGHT);
-        JLabel pcReg = new JLabel("PC:", JLabel.RIGHT);
-        JLabel xrReg = new JLabel("XR:", JLabel.RIGHT);
-        JLabel spReg = new JLabel("SP:", JLabel.RIGHT);
-        JLabel aReg = new JLabel("A:", JLabel.RIGHT);
-        JLabel srReg = new JLabel("SR:", JLabel.RIGHT);
-        tickValue = new JLabel("#VALUE#", JLabel.LEFT);
-        ipVal = new JLabel("#VALUE#", JLabel.LEFT);
-        pcVal = new JLabel("#VALUE#", JLabel.LEFT);
-        xrVal = new JLabel("#VALUE#", JLabel.LEFT);
-        spVal = new JLabel("#VALUE#", JLabel.LEFT);
-        aVal = new JLabel("#VALUE#", JLabel.LEFT);
-        srVal = new JLabel("#VALUE#", JLabel.LEFT);
-        statusPanel.add(tickLabel);
-        statusPanel.add(tickValue);
-        statusPanel.add(ipReg);
-        statusPanel.add(ipVal);
-        statusPanel.add(pcReg);
-        statusPanel.add(pcVal);
-        statusPanel.add(xrReg);
-        statusPanel.add(xrVal);
-        statusPanel.add(spReg);
-        statusPanel.add(spVal);
-        statusPanel.add(aReg);
-        statusPanel.add(aVal);
-        statusPanel.add(srReg);
-        statusPanel.add(srVal);
+        statusPanel.setLayout(new GridLayout(nfields, 2, 2, 0));
+
+        values = new HashMap<String, JLabel>();
+        labels = new ArrayList<JLabel>();
+        for (Map.Entry<String, String> entry : state.entrySet()) {
+            JLabel label = new JLabel(entry.getKey() + ":", JLabel.RIGHT);
+            JLabel value = new JLabel(entry.getValue(), JLabel.LEFT);
+            labels.add(label);
+            values.put(entry.getKey(), value);
+            statusPanel.add(label);
+            statusPanel.add(value);
+        }
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
@@ -96,12 +83,12 @@ public class ControlPanel extends JPanel implements ObserverInterface {
 
     @Override
     public void hasChanged() {
-        tickValue.setText(Integer.toString(cpu.getTicks()));
-        ipVal.setText(Integer.toString(cpu.getIp()));
-        pcVal.setText(Integer.toString(cpu.getPc()));
-        xrVal.setText(Integer.toString(cpu.getXr()));
-        spVal.setText(Integer.toString(cpu.getSp()));
-        aVal.setText(Integer.toString(cpu.getAcc()));
-        srVal.setText(Integer.toString(cpu.getSr()));
+        state = cpu.getState();
+
+        for (String label : state.keySet()) {
+            JLabel valueLabel = values.get(label);
+            String value = state.get(label);
+            valueLabel.setText(value);
+        }
     }
 }
