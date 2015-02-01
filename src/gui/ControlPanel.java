@@ -3,7 +3,6 @@ package gui;
 import emulator.CPU;
 import emulator.CPURunner;
 import emulator.IObserver;
-import emulator.OR16;
 
 import javax.swing.*;
 import java.awt.*;
