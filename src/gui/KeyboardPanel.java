@@ -15,7 +15,7 @@ class KeyboardPanel extends JPanel {
 
     public KeyboardPanel(final Memory memory) {
 
-        setBorder(BorderFactory.createTitledBorder("gui.KeyboardPanel"));
+        setBorder(BorderFactory.createTitledBorder("KeyboardPanel"));
 
         // Layout manager
         setLayout(new GridLayout(4, 4, 2, 2));

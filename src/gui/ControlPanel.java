@@ -24,7 +24,7 @@ public class ControlPanel extends JPanel implements IObserver {
     public ControlPanel(final CPU cpu) {
         this.cpu = cpu;
 
-        setBorder(BorderFactory.createTitledBorder("gui.ControlPanel"));
+        setBorder(BorderFactory.createTitledBorder("ControlPanel"));
 
         // Layout manager
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));

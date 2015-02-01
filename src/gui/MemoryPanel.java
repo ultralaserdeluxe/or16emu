@@ -21,7 +21,7 @@ public class MemoryPanel extends JPanel implements IObserver {
         size.height = 400;
         setPreferredSize(size);
 
-        setBorder(BorderFactory.createTitledBorder("gui.MemoryPanel"));
+        setBorder(BorderFactory.createTitledBorder("MemoryPanel"));
 
         setLayout(new BorderLayout());
 

@@ -26,7 +26,7 @@ public class DisplayPanel extends JPanel implements IObserver {
         size.height = 200;
         setPreferredSize(size);
 
-        setBorder(BorderFactory.createTitledBorder("gui.DisplayPanel"));
+        setBorder(BorderFactory.createTitledBorder("DisplayPanel"));
 
         // Set layout
         GridLayout layout = new GridLayout(rows, columns);
