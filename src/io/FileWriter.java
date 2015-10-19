@@ -16,16 +16,18 @@ public class FileWriter {
     private final Memory memory;
     private final JFileChooser fileChooser;
     private final int size;
+    private FileOutputStream out;
 
     public FileWriter(Memory memory, int size) {
         this.memory = memory;
         this.size = size;
         this.fileChooser = new JFileChooser();
+        this.out = null;
     }
 
     public void writeMemoryToFile(File file) {
         try {
-            FileOutputStream out = new FileOutputStream(file);
+            out = new FileOutputStream(file);
 
             for (int i = 0; i < size; i++) {
                 out.write(memory.read(i));
@@ -34,6 +36,12 @@ public class FileWriter {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

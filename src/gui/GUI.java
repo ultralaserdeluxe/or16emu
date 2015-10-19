@@ -59,7 +59,7 @@ class GUI implements Runnable {
         frame.setVisible(true);
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         // To avoid bug with Gridlayout and JPanels (in gui.DisplayPanel.java)
         System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 

@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
  * Created by Alexander on 2014-11-13.
  */
 public class MemoryPanel extends JPanel implements IObserver {
-    private final DefaultListModel<String> listModel;
+    private final DefaultListModel listModel;
     private final Memory memory;
 
     public MemoryPanel(final Memory memory) {
@@ -28,8 +28,8 @@ public class MemoryPanel extends JPanel implements IObserver {
         setLayout(new BorderLayout());
 
         // Create components
-        listModel = new DefaultListModel<String>();
-        final JList<String> memContents = new JList<String>(listModel);
+        listModel = new DefaultListModel();
+        final JList memContents = new JList(listModel);
         JScrollPane scrollPane = new JScrollPane(memContents);
 
         // Add components
@@ -42,7 +42,7 @@ public class MemoryPanel extends JPanel implements IObserver {
             public void mouseClicked(MouseEvent e) {
                 if (e.getSource() == memContents && e.getClickCount() == 2) {
                     int index = memContents.getSelectedIndex();
-                    String currentValue = listModel.getElementAt(index).split(":")[1].trim();
+                    String currentValue = ((String) listModel.getElementAt(index)).split(":")[1].trim();
                     String newValue = JOptionPane.showInputDialog(parent, "New value for memory cell at address " + index + ":", currentValue);
                     try {
                         memory.write(index, Integer.parseInt(newValue));

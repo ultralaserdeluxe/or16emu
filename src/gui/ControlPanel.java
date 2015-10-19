@@ -9,14 +9,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Created by Alexander on 2014-11-13.
  */
 public class ControlPanel extends JPanel implements IObserver {
     private final CPU cpu;
-    private CPURunner cpuRunner;
+    private CPURunner cpuRunner = null;
     private boolean threadExecuting = false;
     private HashMap<String, String> state;
     private final HashMap<String, JLabel> values;
@@ -38,7 +38,7 @@ public class ControlPanel extends JPanel implements IObserver {
         statusPanel.setLayout(new GridLayout(nFields, 2, 2, 0));
 
         values = new HashMap<String, JLabel>();
-        for (Map.Entry<String, String> entry : state.entrySet()) {
+        for (Entry<String, String> entry : state.entrySet()) {
             JLabel label = new JLabel(entry.getKey() + ":", JLabel.RIGHT);
             JLabel value = new JLabel(entry.getValue(), JLabel.LEFT);
             values.put(entry.getKey(), value);
@@ -106,9 +106,9 @@ public class ControlPanel extends JPanel implements IObserver {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                for (String label : state.keySet()) {
-                    JLabel valueLabel = values.get(label);
-                    String value = state.get(label);
+                for (final Entry<String, String> stringStringEntry : state.entrySet()) {
+                    JLabel valueLabel = values.get(stringStringEntry.getKey());
+                    String value = stringStringEntry.getValue();
                     valueLabel.setText(value);
                 }
             }

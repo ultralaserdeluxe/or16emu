@@ -13,7 +13,9 @@ import java.io.File;
  * Created by Alexander on 2014-11-13.
  */
 class EmulatorFrame extends JFrame {
-    public EmulatorFrame(String title, JPanel ctrlPanel, JPanel memPanel, JPanel keyPanel, JPanel displayPanel, final FileReader fileReader, final FileWriter fileWriter) {
+    EmulatorFrame(String title, JPanel ctrlPanel, JPanel memPanel, JPanel keyPanel, JPanel displayPanel,
+                  final FileReader fileReader, final FileWriter fileWriter)
+    {
         super(title);
 
         final Container c = getContentPane();
@@ -24,7 +26,8 @@ class EmulatorFrame extends JFrame {
 
         // Add components
         // First column
-        gc.weightx = gc.weighty = 1;
+        gc.weightx = 1;
+        gc.weighty = 1;
         gc.gridx = 0;
         gc.gridy = 0;
         gc.gridwidth = 1;

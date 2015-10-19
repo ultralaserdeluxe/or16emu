@@ -142,7 +142,13 @@ public class OR16 implements CPU {
 
     @Override
     public void reset() {
-        pc = ip = acc = sp = xr = sr = ticks = 0;
+        pc = 0;
+        ip = 0;
+        acc = 0;
+        sp = 0;
+        xr = 0;
+        sr = 0;
+        ticks = 0;
         halted = false;
         notifyObservers();
     }

@@ -12,15 +12,17 @@ import java.io.*;
 public class FileReader {
     private final Memory memory;
     private final JFileChooser fileChooser;
+    private FileInputStream in;
 
     public FileReader(Memory memory) {
         this.memory = memory;
         this.fileChooser = new JFileChooser();
+        this.in = null;
     }
 
     public void readFileToMemory(File file) {
         try {
-            InputStream in = new FileInputStream(file);
+            in = new FileInputStream(file);
             int i = 0;
             while (true) {
                 int byte1 = in.read();
@@ -37,6 +39,12 @@ public class FileReader {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

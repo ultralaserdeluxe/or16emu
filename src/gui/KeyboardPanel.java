@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 class KeyboardPanel extends JPanel {
     private final JButton[] keys;
 
-    public KeyboardPanel(final Memory memory) {
+    KeyboardPanel(final Memory memory) {
 
         setBorder(BorderFactory.createTitledBorder("KeyboardPanel"));
 
@@ -21,11 +21,7 @@ class KeyboardPanel extends JPanel {
         setLayout(new GridLayout(4, 4, 2, 2));
 
         // Create components
-        String keyLabels[] = {
-                "7", "8", "9", "A",
-                "4", "5", "6", "B",
-                "1", "2", "3", "C",
-                "0", "D", "E", "F"};
+        String[] keyLabels = { "7", "8", "9", "A", "4", "5", "6", "B", "1", "2", "3", "C", "0", "D", "E", "F" };
         keys = new JButton[keyLabels.length];
         for (int i = 0; i < keys.length; i++) {
             keys[i] = new JButton(keyLabels[i]);
