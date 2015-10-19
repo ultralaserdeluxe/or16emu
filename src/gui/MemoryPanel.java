@@ -13,7 +13,7 @@ import java.awt.event.MouseListener;
  * Created by Alexander on 2014-11-13.
  */
 public class MemoryPanel extends JPanel implements IObserver {
-    private final DefaultListModel listModel;
+    private final DefaultListModel<String> listModel;
     private final Memory memory;
 
     public MemoryPanel(final Memory memory) {
@@ -30,9 +30,9 @@ public class MemoryPanel extends JPanel implements IObserver {
         setLayout(new BorderLayout());
 
         // Create components
-        listModel = new DefaultListModel();
-        final JList memContents = new JList(listModel);
-        JScrollPane scrollPane = new JScrollPane(memContents);
+	listModel = new DefaultListModel<String>();
+	final JList<String> memContents = new JList<String>(listModel);
+	JScrollPane scrollPane = new JScrollPane(memContents);
 
         // Add components
         add(scrollPane, BorderLayout.CENTER);
@@ -46,8 +46,8 @@ public class MemoryPanel extends JPanel implements IObserver {
                 super.mouseClicked(e);
                 if (e.getSource().equals(memContents) && e.getClickCount() == 2) {
                     int index = memContents.getSelectedIndex();
-                    String currentValue = ((String) listModel.getElementAt(index)).split(":")[1].trim();
-                    String newValue = JOptionPane.showInputDialog(parent, "New value for memory cell at address " + index + ":", currentValue);
+		    String currentValue = listModel.getElementAt(index).split(":")[1].trim();
+		    String newValue = JOptionPane.showInputDialog(parent, "New value for memory cell at address " + index + ":", currentValue);
                     try {
                         memory.write(index, Integer.parseInt(newValue));
                         listModel.removeElementAt(index);
