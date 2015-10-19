@@ -35,8 +35,18 @@ public class OR16 implements Processor
 
     @Override
     public void tick() {
-        // TODO: Put all this in a map (opcode -> function). Index into map with opcode and call function. Voila.
-        final int incOp = 11;
+	final int nopOp = 0;
+	final int ldaOp = 1;
+	final int staOp = 2;
+	final int ldxOp = 3;
+	final int stxOp = 4;
+	final int ldsOp = 5;
+	final int stsOp = 6;
+	final int pushOp = 7;
+	final int pullOp = 8;
+	final int addOp = 9;
+	final int subOp = 10;
+	final int incOp = 11;
         final int decOp = 12;
         final int inxOp = 13;
         final int dexOp = 14;
@@ -65,38 +75,38 @@ public class OR16 implements Processor
 
         // Execute
         switch (ip >> 3) {
-            case 0:
-                nop();
+	    case nopOp:
+		nop();
                 break;
-            case 1:
-                lda();
+	    case ldaOp:
+		lda();
                 break;
-            case 2:
-                sta();
+	    case staOp:
+		sta();
                 break;
-            case 3:
-                ldx();
+	    case ldxOp:
+		ldx();
                 break;
-            case 4:
-                stx();
+	    case stxOp:
+		stx();
                 break;
-            case 5:
-                lds();
+	    case ldsOp:
+		lds();
                 break;
-            case 6:
-                sts();
+	    case stsOp:
+		sts();
                 break;
-            case 7:
-                push();
+	    case pushOp:
+		push();
                 break;
-            case 8:
-                pull();
+	    case pullOp:
+		pull();
                 break;
-            case 9:
-                add();
+	    case addOp:
+		add();
                 break;
-            case 10:
-                sub();
+	    case subOp:
+		sub();
                 break;
             case incOp:
                 inc();
