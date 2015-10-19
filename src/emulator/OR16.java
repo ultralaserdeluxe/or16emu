@@ -35,6 +35,7 @@ public class OR16 implements Processor
 
     @Override
     public void tick() {
+        // TODO: Put all this in a map (opcode -> function). Index into map with opcode and call function. Voila.
         final int incOp = 11;
         final int decOp = 12;
         final int inxOp = 13;
