@@ -37,7 +37,8 @@ class KeyboardPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 for (JButton key : keys) {
                     if (e.getSource().equals(key)) {
-                        memory.write(0, keyToInt(key.getText()));
+                        final int base = 16;
+                        memory.write(0, Integer.parseInt(key.getText(), base));
                     }
                 }
             }
@@ -47,43 +48,5 @@ class KeyboardPanel extends JPanel {
             key.addActionListener(al);
         }
 
-    }
-
-    private int keyToInt(String keyLabel) {
-        if (keyLabel.equals("0")) {
-            return 0;
-        } else if (keyLabel.equals("1")) {
-            return 1;
-        } else if (keyLabel.equals("2")) {
-            return 2;
-        } else if (keyLabel.equals("3")) {
-            return 3;
-        } else if (keyLabel.equals("4")) {
-            return 4;
-        } else if (keyLabel.equals("5")) {
-            return 5;
-        } else if (keyLabel.equals("6")) {
-            return 6;
-        } else if (keyLabel.equals("7")) {
-            return 7;
-        } else if (keyLabel.equals("8")) {
-            return 8;
-        } else if (keyLabel.equals("9")) {
-            return 9;
-        } else if (keyLabel.equals("A")) {
-            return 10;
-        } else if (keyLabel.equals("B")) {
-            return 11;
-        } else if (keyLabel.equals("C")) {
-            return 12;
-        } else if (keyLabel.equals("D")) {
-            return 13;
-        } else if (keyLabel.equals("E")) {
-            return 14;
-        } else if (keyLabel.equals("F")) {
-            return 15;
-        } else {
-            return 0xFFFF;
-        }
     }
 }

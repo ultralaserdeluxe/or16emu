@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * Created by Alexander on 2014-10-07.
  */
-public class OR16 implements CPU {
+public class OR16 implements Processor
+{
     private final List<Object> observers;
     private final Memory memory;
 
@@ -23,6 +24,9 @@ public class OR16 implements CPU {
     private boolean halted = false;
     private int ticks = 0;
 
+    // Others
+    private static final int REGISTER_MASK = 0xFFFF;
+
     public OR16(Memory memory) {
         this.memory = memory;
 
@@ -31,6 +35,27 @@ public class OR16 implements CPU {
 
     @Override
     public void tick() {
+        final int incOp = 11;
+        final int decOp = 12;
+        final int inxOp = 13;
+        final int dexOp = 14;
+        final int insOp = 15;
+        final int desOp = 16;
+        final int lslOp = 17;
+        final int lsrOp = 18;
+        final int asrOp = 19;
+        final int aslOp = 20;
+        final int andOp = 21;
+        final int orOp = 22;
+        final int xorOp = 23;
+        final int jmpOp = 24;
+        final int jmpnOp = 25;
+        final int jmpzOp = 26;
+        final int jsrOp = 27;
+        final int rtsOp = 28;
+        final int cmpOp = 29;
+        final int haltOp = 31;
+
         if (halted) return;
 
         // Fetch
@@ -72,64 +97,64 @@ public class OR16 implements CPU {
             case 10:
                 sub();
                 break;
-            case 11:
+            case incOp:
                 inc();
                 break;
-            case 12:
+            case decOp:
                 dec();
                 break;
-            case 13:
+            case inxOp:
                 inx();
                 break;
-            case 14:
+            case dexOp:
                 dex();
                 break;
-            case 15:
+            case insOp:
                 ins();
                 break;
-            case 16:
+            case desOp:
                 des();
                 break;
-            case 17:
+            case lslOp:
                 lsl();
                 break;
-            case 18:
+            case lsrOp:
                 lsr();
                 break;
-            case 19:
+            case asrOp:
                 asr();
                 break;
-            case 20:
+            case aslOp:
                 asl();
                 break;
-            case 21:
+            case andOp:
                 and();
                 break;
-            case 22:
+            case orOp:
                 or();
                 break;
-            case 23:
+            case xorOp:
                 xor();
                 break;
-            case 24:
+            case jmpOp:
                 jmp();
                 break;
-            case 25:
+            case jmpnOp:
                 jmpn();
                 break;
-            case 26:
+            case jmpzOp:
                 jmpz();
                 break;
-            case 27:
+            case jsrOp:
                 jsr();
                 break;
-            case 28:
+            case rtsOp:
                 rts();
                 break;
-            case 29:
+            case cmpOp:
                 cmp();
                 break;
-            case 31:
+            case haltOp:
                 halt();
                 break;
             default:
@@ -234,64 +259,64 @@ public class OR16 implements CPU {
 
     private void add() {
         System.out.println("ADD");
-        acc = (acc + fetchOperand(ip)) & 0xFFFF;
+        acc = (acc + fetchOperand(ip)) & REGISTER_MASK;
         updateSr();
     }
 
     private void sub() {
         System.out.println("SUB");
         acc -= fetchOperand(ip);
-        acc = (acc - fetchOperand(ip)) & 0xFFFF;
+        acc = (acc - fetchOperand(ip)) & REGISTER_MASK;
         updateSr();
     }
 
     private void inc() {
         System.out.println("INC");
-        acc = (acc + 1) & 0xFFFF;
+        acc = (acc + 1) & REGISTER_MASK;
         updateSr();
     }
 
     private void dec() {
         System.out.println("DEC");
-        acc = (acc - 1) & 0xFFFF;
+        acc = (acc - 1) & REGISTER_MASK;
         updateSr();
     }
 
     private void inx() {
         System.out.println("INX");
-        xr = (xr + 1) & 0xFFFF;
+        xr = (xr + 1) & REGISTER_MASK;
     }
 
     private void dex() {
         System.out.println("DEX");
-        xr = (xr - 1) & 0xFFFF;
+        xr = (xr - 1) & REGISTER_MASK;
     }
 
     private void ins() {
         System.out.println("INS");
-        sp = (sp + 1) & 0xFFFF;
+        sp = (sp + 1) & REGISTER_MASK;
     }
 
     private void des() {
         System.out.println("DES");
-        sp = (sp - 1) & 0xFFFF;
+        sp = (sp - 1) & REGISTER_MASK;
     }
 
     private void lsl() {
         System.out.println("LSL");
-        acc = (acc << fetchOperand(ip)) & 0xFFFF;
+        acc = (acc << fetchOperand(ip)) & REGISTER_MASK;
         updateSr();
     }
 
     private void lsr() {
         System.out.println("LSR");
-        acc = (acc >>> fetchOperand(ip)) & 0xFFFF;
+        acc = (acc >>> fetchOperand(ip)) & REGISTER_MASK;
         updateSr();
     }
 
     private void asr() {
         System.out.println("ASR");
-        acc = (acc >> fetchOperand(ip)) & 0xFFFF;
+        acc = (acc >> fetchOperand(ip)) & REGISTER_MASK;
         updateSr();
     }
 
@@ -308,7 +333,7 @@ public class OR16 implements CPU {
 
     private void or() {
         System.out.println("OR");
-        acc = (acc | fetchOperand(ip)) & 0xFFFF;
+        acc = (acc | fetchOperand(ip)) & REGISTER_MASK;
         updateSr();
     }
 
@@ -338,7 +363,7 @@ public class OR16 implements CPU {
     private void jsr() {
         System.out.println("JSR");
         memory.write(sp, pc);
-        sp = (sp + 1) & 0xFFFF;
+        sp = (sp + 1) & REGISTER_MASK;
         pc = fetchOperand(ip);
     }
 
@@ -351,7 +376,7 @@ public class OR16 implements CPU {
     private void cmp() {
         System.out.println("CMP");
         int oldAcc = acc;
-        acc = (acc - fetchOperand(ip)) & 0xFFFF;
+        acc = (acc - fetchOperand(ip)) & REGISTER_MASK;
         updateSr();
         acc = oldAcc;
     }

@@ -22,7 +22,8 @@ public class MainMemory implements Memory {
 
     @Override
     public void write(int address, int value) {
-        memory[address] = value & 0xFFFF;
+        final int memoryMask = 0xFFFF;
+        memory[address] = value & memoryMask;
         notifyObservers();
     }
 

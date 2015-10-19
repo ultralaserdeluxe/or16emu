@@ -17,8 +17,8 @@ class GUI implements Runnable {
         Memory mainMemory = new MainMemory(mainMemorySize);
 
         // Create graphics memory
-        int columns = 80;
-        int rows = 40;
+        final int columns = 80;
+        final int rows = 40;
         Memory graphicsMemory = new MainMemory(columns * rows);
 
         // Create keyboard memory
@@ -33,7 +33,7 @@ class GUI implements Runnable {
         memorySpace.addMemoryRegion(graphicsMemory);
         graphicsMemory.addObserver(memorySpace);
 
-        // Create a emulator.CPU and give it a memory space to work on
+        // Create a emulator.Processor and give it a memory space to work on
         OR16 cpu = new OR16(memorySpace);
 
         // Create all panels

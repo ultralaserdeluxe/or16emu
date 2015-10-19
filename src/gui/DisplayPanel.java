@@ -23,8 +23,9 @@ public class DisplayPanel extends JPanel implements IObserver {
         this.rows = rows;
 
         Dimension size = getPreferredSize();
-        size.width = 400;
-        size.height = 200;
+        final int defaultWidth = 400;
+        final int defaultHeight = 200;
+        size.setSize(defaultWidth, defaultHeight);
         setPreferredSize(size);
 
         setBorder(BorderFactory.createTitledBorder("DisplayPanel"));
@@ -47,10 +48,13 @@ public class DisplayPanel extends JPanel implements IObserver {
     }
 
     @Override public void notifyObserver() {
+        final int redMask = 0xE0;
+        final int greenMask = 0x1C;
+        final int blueMask = 0x03;
         for (int i = 0; i < columns * rows; i++) {
-            int red = (memory.read(i) & 0xE0);
-            int green = (memory.read(i) & 0x1C) << 3;
-            int blue = (memory.read(i) & 0x03) << 6;
+            int red = (memory.read(i) & redMask);
+            int green = (memory.read(i) & greenMask) << 3;
+            int blue = (memory.read(i) & blueMask) << 6;
             pixels.get(i).setBackground(new Color(red, green, blue));
         }
     }

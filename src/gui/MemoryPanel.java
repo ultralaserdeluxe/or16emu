@@ -20,8 +20,9 @@ public class MemoryPanel extends JPanel implements IObserver {
         this.memory = memory;
 
         Dimension size = getPreferredSize();
-        size.width = 200;
-        size.height = 400;
+        final int defaultWidth = 200;
+        final int defaultHeight = 400;
+        size.setSize(defaultWidth, defaultHeight);
         setPreferredSize(size);
 
         setBorder(BorderFactory.createTitledBorder("MemoryPanel"));
