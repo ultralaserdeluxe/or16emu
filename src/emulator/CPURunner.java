@@ -3,7 +3,8 @@ package emulator;
 /**
  * Created by Alexander on 2015-02-01.
  */
-public class CPURunner extends Thread {
+public class CPURunner implements Runnable
+{
     private final CPU cpu;
     private volatile boolean stopped = false;
 

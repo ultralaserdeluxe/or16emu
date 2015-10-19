@@ -36,7 +36,7 @@ class KeyboardPanel extends JPanel {
         final ActionListener al = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 for (JButton key : keys) {
-                    if (e.getSource() == key) {
+                    if (e.getSource().equals(key)) {
                         memory.write(0, keyToInt(key.getText()));
                     }
                 }

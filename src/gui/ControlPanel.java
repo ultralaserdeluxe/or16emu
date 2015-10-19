@@ -17,6 +17,7 @@ import java.util.Map.Entry;
 public class ControlPanel extends JPanel implements IObserver {
     private final CPU cpu;
     private CPURunner cpuRunner = null;
+    private Thread cpuThread = null;
     private boolean threadExecuting = false;
     private HashMap<String, String> state;
     private final HashMap<String, JLabel> values;
@@ -39,8 +40,8 @@ public class ControlPanel extends JPanel implements IObserver {
 
         values = new HashMap<String, JLabel>();
         for (Entry<String, String> entry : state.entrySet()) {
-            JLabel label = new JLabel(entry.getKey() + ":", JLabel.RIGHT);
-            JLabel value = new JLabel(entry.getValue(), JLabel.LEFT);
+            JLabel label = new JLabel(entry.getKey() + ":", SwingConstants.RIGHT);
+            JLabel value = new JLabel(entry.getValue(), SwingConstants.LEFT);
             values.put(entry.getKey(), value);
             statusPanel.add(label);
             statusPanel.add(value);
@@ -65,28 +66,34 @@ public class ControlPanel extends JPanel implements IObserver {
         // Add actions to buttons
         final ActionListener al = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == tickButton) {
+                if (e.getSource().equals(tickButton)) {
                     cpu.tick();
-                } else if (e.getSource() == runButton) {
+                } else if (e.getSource().equals(runButton)) {
                     if (!threadExecuting) {
                         cpuRunner = new CPURunner(cpu);
-                        cpuRunner.start();
+                        cpuThread = new Thread(cpuRunner);
+                        cpuThread.start();
                         threadExecuting = true;
                         runButton.setEnabled(false);
                         stopButton.setEnabled(true);
                         resetButton.setEnabled(false);
                         tickButton.setEnabled(false);
                     }
-                } else if (e.getSource() == stopButton) {
+                } else if (e.getSource().equals(stopButton)) {
                     if (threadExecuting) {
-                        cpuRunner.stopExecution();
+                        try {
+                            cpuRunner.stopExecution();
+                            cpuThread.join();
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
                         threadExecuting = false;
                         runButton.setEnabled(true);
                         stopButton.setEnabled(false);
                         resetButton.setEnabled(true);
                         tickButton.setEnabled(true);
                     }
-                } else if (e.getSource() == resetButton) {
+                } else if (e.getSource().equals(resetButton)) {
                     cpu.reset();
                 }
             }

@@ -40,7 +40,7 @@ public class MemoryPanel extends JPanel implements IObserver {
 
         final MouseAdapter ma = new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if (e.getSource() == memContents && e.getClickCount() == 2) {
+                if (e.getSource().equals(memContents) && e.getClickCount() == 2) {
                     int index = memContents.getSelectedIndex();
                     String currentValue = ((String) listModel.getElementAt(index)).split(":")[1].trim();
                     String newValue = JOptionPane.showInputDialog(parent, "New value for memory cell at address " + index + ":", currentValue);

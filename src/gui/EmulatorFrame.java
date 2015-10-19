@@ -72,7 +72,7 @@ class EmulatorFrame extends JFrame {
 
         final ActionListener al = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == loadItem) {
+                if (e.getSource().equals(loadItem)) {
                     int returnVal = fileReader.showOpenDialog(c);
 
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -80,7 +80,7 @@ class EmulatorFrame extends JFrame {
                         System.out.println("Loading file:" + file.getAbsolutePath());
                         fileReader.readFileToMemory(file);
                     }
-                } else if (e.getSource() == saveItem) {
+                } else if (e.getSource().equals(saveItem)) {
                     int returnVal = fileWriter.showSaveDialog(c);
 
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -88,7 +88,7 @@ class EmulatorFrame extends JFrame {
                         System.out.println("Saving to file:" + file.getAbsolutePath());
                         fileWriter.writeMemoryToFile(file);
                     }
-                } else if (e.getSource() == exitItem) {
+                } else if (e.getSource().equals(exitItem)) {
                     System.exit(0);
                 }
             }
