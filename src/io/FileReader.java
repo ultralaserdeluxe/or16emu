@@ -49,8 +49,8 @@ public class FileReader {
     }
 
 
-    public int showOpenDialog(Container c) {
-        return fileChooser.showOpenDialog(c);
+    public int showOpenDialog(Container container) {
+        return fileChooser.showOpenDialog(container);
     }
 
     public File getSelectedFile() {

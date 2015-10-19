@@ -45,8 +45,8 @@ public class FileWriter {
         }
     }
 
-    public int showSaveDialog(Container c) {
-        return fileChooser.showSaveDialog(c);
+    public int showSaveDialog(Container container) {
+        return fileChooser.showSaveDialog(container);
     }
 
     public File getSelectedFile() {

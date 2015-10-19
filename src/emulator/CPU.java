@@ -1,6 +1,6 @@
 package emulator;
 
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Alexander on 2014-10-17.
@@ -12,5 +12,5 @@ public interface CPU extends IObservable {
 
     boolean isHalted();
 
-    HashMap<String, String> getCPUState();
+    Map<String, String> getCPUState();
 }

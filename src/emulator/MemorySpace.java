@@ -71,12 +71,11 @@ public class MemorySpace implements Memory, IObserver {
 
     private void notifyObservers() {
         for (Object o : observers) {
-            ((IObserver) o).hasChanged();
+            ((IObserver) o).notifyObserver();
         }
     }
 
-    @Override
-    public void hasChanged() {
+    @Override public void notifyObserver() {
         notifyObservers();
     }
 }

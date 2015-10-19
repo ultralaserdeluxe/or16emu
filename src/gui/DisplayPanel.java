@@ -5,13 +5,14 @@ import emulator.Memory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Alexander on 2014-11-13.
  */
 public class DisplayPanel extends JPanel implements IObserver {
-    private final ArrayList<JPanel> pixels;
+    private final List<JPanel> pixels;
     private final int columns;
     private final int rows;
     private final Memory memory;
@@ -29,7 +30,7 @@ public class DisplayPanel extends JPanel implements IObserver {
         setBorder(BorderFactory.createTitledBorder("DisplayPanel"));
 
         // Set layout
-        GridLayout layout = new GridLayout(rows, columns);
+        LayoutManager layout = new GridLayout(rows, columns);
         setLayout(layout);
 
         // Create components
@@ -42,11 +43,10 @@ public class DisplayPanel extends JPanel implements IObserver {
             add(pixel);
         }
 
-        hasChanged();
+        notifyObserver();
     }
 
-    @Override
-    public void hasChanged() {
+    @Override public void notifyObserver() {
         for (int i = 0; i < columns * rows; i++) {
             int red = (memory.read(i) & 0xE0);
             int green = (memory.read(i) & 0x1C) << 3;

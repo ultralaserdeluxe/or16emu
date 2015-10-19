@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 /**
@@ -19,8 +20,8 @@ public class ControlPanel extends JPanel implements IObserver {
     private CPURunner cpuRunner = null;
     private Thread cpuThread = null;
     private boolean threadExecuting = false;
-    private HashMap<String, String> state;
-    private final HashMap<String, JLabel> values;
+    private Map<String, String> state;
+    private final Map<String, JLabel> values;
 
     public ControlPanel(final CPU cpu) {
         this.cpu = cpu;
@@ -104,11 +105,10 @@ public class ControlPanel extends JPanel implements IObserver {
         stopButton.addActionListener(al);
         resetButton.addActionListener(al);
 
-        hasChanged();
+        notifyObserver();
     }
 
-    @Override
-    public void hasChanged() {
+    @Override public void notifyObserver() {
         state = cpu.getCPUState();
 
         SwingUtilities.invokeLater(new Runnable() {

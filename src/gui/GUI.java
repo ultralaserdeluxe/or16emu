@@ -63,7 +63,7 @@ class GUI implements Runnable {
         // To avoid bug with Gridlayout and JPanels (in gui.DisplayPanel.java)
         System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 
-        GUI emuWindow = new GUI();
+        Runnable emuWindow = new GUI();
         SwingUtilities.invokeLater(emuWindow);
     }
 }

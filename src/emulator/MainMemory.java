@@ -38,7 +38,7 @@ public class MainMemory implements Memory {
 
     private void notifyObservers() {
         for (Object o : observers) {
-            ((IObserver) o).hasChanged();
+            ((IObserver) o).notifyObserver();
         }
     }
 }

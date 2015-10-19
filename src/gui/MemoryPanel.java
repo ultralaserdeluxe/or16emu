@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Created by Alexander on 2014-11-13.
@@ -38,8 +39,10 @@ public class MemoryPanel extends JPanel implements IObserver {
         // Make memContents editable
         final JPanel parent = this;
 
-        final MouseAdapter ma = new MouseAdapter() {
+        final MouseListener ma = new MouseAdapter()
+        {
             public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
                 if (e.getSource().equals(memContents) && e.getClickCount() == 2) {
                     int index = memContents.getSelectedIndex();
                     String currentValue = ((String) listModel.getElementAt(index)).split(":")[1].trim();
@@ -58,11 +61,10 @@ public class MemoryPanel extends JPanel implements IObserver {
         memContents.addMouseListener(ma);
 
         // Update components
-        hasChanged();
+        notifyObserver();
     }
 
-    @Override
-    public void hasChanged() {
+    @Override public void notifyObserver() {
         listModel.removeAllElements();
         for (int i = 0; i < memory.size(); i++) {
             listModel.add(i, i + ": " + memory.read(i));

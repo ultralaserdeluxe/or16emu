@@ -18,7 +18,7 @@ class EmulatorFrame extends JFrame {
     {
         super(title);
 
-        final Container c = getContentPane();
+        final Container contentPane = getContentPane();
 
         // Layout manager
         setLayout(new GridBagLayout());
@@ -33,28 +33,28 @@ class EmulatorFrame extends JFrame {
         gc.gridwidth = 1;
         gc.gridheight = 2;
         gc.fill = GridBagConstraints.BOTH;
-        c.add(memPanel, gc);
+        contentPane.add(memPanel, gc);
 
         // Second Column
         gc.gridx = 1;
         gc.gridy = 0;
         gc.gridwidth = 2;
         gc.gridheight = 1;
-        c.add(displayPanel, gc);
+        contentPane.add(displayPanel, gc);
 
         gc.gridx = 1;
         gc.gridy = 1;
         gc.gridwidth = 1;
         gc.gridheight = 1;
         gc.fill = GridBagConstraints.NONE;
-        c.add(ctrlPanel, gc);
+        contentPane.add(ctrlPanel, gc);
 
         // Third column
         gc.gridx = 2;
         gc.gridy = 1;
         gc.gridwidth = 1;
         gc.gridheight = 1;
-        c.add(keyPanel, gc);
+        contentPane.add(keyPanel, gc);
 
         // Add menu bar
         JMenuBar menuBar = new JMenuBar();
@@ -73,7 +73,7 @@ class EmulatorFrame extends JFrame {
         final ActionListener al = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(loadItem)) {
-                    int returnVal = fileReader.showOpenDialog(c);
+                    int returnVal = fileReader.showOpenDialog(contentPane);
 
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         File file = fileReader.getSelectedFile();
@@ -81,7 +81,7 @@ class EmulatorFrame extends JFrame {
                         fileReader.readFileToMemory(file);
                     }
                 } else if (e.getSource().equals(saveItem)) {
-                    int returnVal = fileWriter.showSaveDialog(c);
+                    int returnVal = fileWriter.showSaveDialog(contentPane);
 
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         File file = fileWriter.getSelectedFile();
