@@ -368,7 +368,7 @@ public class OR16 implements Processor
     private void jmpz() {
         System.out.println("JMPZ");
         int address = fetchOperand(ip);
-        if (acc < 0) pc = address;
+	if (acc == 0) pc = address;
     }
 
     private void jsr() {
