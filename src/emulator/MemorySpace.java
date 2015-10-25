@@ -56,6 +56,7 @@ public class MemorySpace implements Memory, IObserver {
 
     public void addMemoryRegion(Memory memory) {
         memoryRegions.add(memory);
+        memory.addObserver(this);
     }
 
     public int size() {

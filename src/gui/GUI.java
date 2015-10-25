@@ -60,11 +60,8 @@ class GUI implements Runnable {
         // Create a memory space and add all memory regions to it
         memorySpace = new MemorySpace();
         memorySpace.addMemoryRegion(mainMemory);
-        mainMemory.addObserver(memorySpace);
         memorySpace.addMemoryRegion(keyboardMemory);
-        keyboardMemory.addObserver(memorySpace);
         memorySpace.addMemoryRegion(graphicsMemory);
-        graphicsMemory.addObserver(memorySpace);
 
         // Create a emulator.Processor and give it a memory space to work on
         cpu = new OR16(memorySpace);
