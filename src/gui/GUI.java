@@ -26,16 +26,16 @@ class GUI implements Runnable {
         createComputer();
 
         // Create all panels
-        JPanel memPanel = new MemoryPanel(memorySpace);
+        MemoryPanel memPanel = new MemoryPanel(memorySpace);
         memorySpace.addObserver(memPanel);
 
-        JPanel displayPanel = new DisplayPanel(graphicsMemory, COLUMNS, ROWS);
+        DisplayPanel displayPanel = new DisplayPanel(graphicsMemory, COLUMNS, ROWS);
         graphicsMemory.addObserver(displayPanel);
 
-        JPanel ctrlPanel = new ControlPanel(cpu);
+        ControlPanel ctrlPanel = new ControlPanel(cpu);
         cpu.addObserver(ctrlPanel);
 
-        JPanel keyPanel = new KeyboardPanel(keyboardMemory);
+        KeyboardPanel keyPanel = new KeyboardPanel(keyboardMemory);
 
         // Create the file reader and writer
         createFileHandlers(memorySpace, MAIN_MEMORY_SIZE);

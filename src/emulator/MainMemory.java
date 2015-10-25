@@ -8,11 +8,11 @@ import java.util.List;
  */
 public class MainMemory implements Memory {
     private final int[] memory;
-    private final List<Object> observers;
+    private final List<IObserver> observers;
 
     public MainMemory(int size) {
         memory = new int[size];
-        observers = new ArrayList<Object>();
+        observers = new ArrayList<IObserver>();
     }
 
     @Override
@@ -36,14 +36,13 @@ public class MainMemory implements Memory {
         return memory.length;
     }
 
-    @Override
-    public void addObserver(Object o) {
+    @Override public void addObserver(IObserver o) {
         observers.add(o);
     }
 
     private void notifyObservers() {
-        for (Object o : observers) {
-            ((IObserver) o).notifyObserver();
+        for (IObserver o : observers) {
+            o.notifyObserver();
         }
     }
 }

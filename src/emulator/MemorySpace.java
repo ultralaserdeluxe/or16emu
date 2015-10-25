@@ -8,10 +8,10 @@ import java.util.List;
  */
 public class MemorySpace implements Memory, IObserver {
     private final List<Memory> memoryRegions;
-    private final List<Object> observers;
+    private final List<IObserver> observers;
 
     public MemorySpace() {
-        observers = new ArrayList<Object>();
+        observers = new ArrayList<IObserver>();
         memoryRegions = new ArrayList<Memory>();
     }
 
@@ -68,14 +68,13 @@ public class MemorySpace implements Memory, IObserver {
         return size;
     }
 
-    @Override
-    public void addObserver(Object o) {
+    @Override public void addObserver(IObserver o) {
         observers.add(o);
     }
 
     private void notifyObservers() {
-        for (Object o : observers) {
-            ((IObserver) o).notifyObserver();
+        for (IObserver o : observers) {
+            o.notifyObserver();
         }
     }
 

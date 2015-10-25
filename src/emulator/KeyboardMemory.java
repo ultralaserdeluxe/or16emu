@@ -8,10 +8,10 @@ import java.util.List;
  */
 public class KeyboardMemory implements Memory {
     private int character;
-    private final List<Object> observers;
+    private final List<IObserver> observers;
 
     public KeyboardMemory() {
-        observers = new ArrayList<Object>();
+        observers = new ArrayList<IObserver>();
     }
 
     @Override
@@ -36,14 +36,13 @@ public class KeyboardMemory implements Memory {
         return 1;
     }
 
-    @Override
-    public void addObserver(Object o) {
+    @Override public void addObserver(IObserver o) {
         observers.add(o);
     }
 
     private void notifyObservers() {
-        for (Object o : observers) {
-            ((IObserver) o).notifyObserver();
+        for (IObserver o : observers) {
+            o.notifyObserver();
         }
     }
 }

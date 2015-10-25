@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class OR16 implements Processor
 {
-    private final List<Object> observers;
+    private final List<IObserver> observers;
     private final Memory memory;
 
     // Registers
@@ -30,7 +30,7 @@ public class OR16 implements Processor
     public OR16(Memory memory) {
         this.memory = memory;
 
-        observers = new ArrayList<Object>();
+        observers = new ArrayList<IObserver>();
     }
 
     @Override
@@ -443,14 +443,13 @@ public class OR16 implements Processor
         return operand;
     }
 
-    @Override
-    public void addObserver(Object o) {
+    @Override public void addObserver(IObserver o) {
         observers.add(o);
     }
 
     private void notifyObservers() {
-        for (Object o : observers) {
-            ((IObserver) o).notifyObserver();
+        for (IObserver o : observers) {
+            o.notifyObserver();
         }
     }
 }
