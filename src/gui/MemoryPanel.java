@@ -49,9 +49,11 @@ public class MemoryPanel extends JPanel implements IObserver {
 		    String currentValue = listModel.getElementAt(index).split(":")[1].trim();
 		    String newValue = JOptionPane.showInputDialog(parent, "New value for memory cell at address " + index + ":", currentValue);
                     try {
-                        memory.write(index, Integer.parseInt(newValue));
+                        final int memoryMask = 0xFFFF;
+                        final int memVal = Integer.parseInt(newValue) & memoryMask;
+                        memory.write(index, memVal);
                         listModel.removeElementAt(index);
-                        listModel.insertElementAt(index + ": " + newValue, index);
+                        listModel.insertElementAt(index + ": " + memVal, index);
                     } catch (NumberFormatException nfe) {
                         nfe.printStackTrace();
                     }

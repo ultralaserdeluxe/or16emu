@@ -46,6 +46,10 @@ public class MemorySpace implements Memory, IObserver {
         }
     }
 
+    @Override public void reset() {
+        for (Memory memory : memoryRegions) memory.reset();
+    }
+
     private boolean isAddressInBounds(int address, int cumulativeSize, int memorySize) {
         return cumulativeSize <= address && address < cumulativeSize + memorySize;
     }

@@ -8,5 +8,7 @@ public interface Memory extends IObservable {
 
     void write(int address, int value);
 
+    void reset();
+
     int size();
 }

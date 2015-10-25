@@ -21,6 +21,7 @@ public class FileReader {
     }
 
     public void readFileToMemory(File file) {
+        memory.reset();
         try {
             in = new FileInputStream(file);
             int i = 0;

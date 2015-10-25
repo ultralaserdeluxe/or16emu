@@ -27,6 +27,10 @@ public class KeyboardMemory implements Memory {
         }
     }
 
+    @Override public void reset() {
+        character = 0;
+    }
+
     @Override
     public int size() {
         return 1;

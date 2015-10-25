@@ -27,6 +27,10 @@ public class MainMemory implements Memory {
         notifyObservers();
     }
 
+    public void reset() {
+        for (int i = 0; i < memory.length; i++) memory[i] = 0;
+    }
+
     @Override
     public int size() {
         return memory.length;
